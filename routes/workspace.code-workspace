@@ -1,0 +1,19 @@
+{
+	"folders": [
+		{
+			"path": ".."
+		},
+		{
+			"path": "../../Bcrypt_Demo"
+		},
+		{
+			"path": "../../Authentication_demo"
+		},
+		{
+			"path": "../../../movieWebAPP"
+		}
+	],
+	"settings": {
+		"git.ignoreLimitWarning": true
+	}
+}

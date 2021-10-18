@@ -1,0 +1,50 @@
+<% layout("layouts/boilerplate") %>
+
+<div class="container justify-content-center align-items-center mt-3 mb-3">
+    <div class="row">
+        <div class="col-md-6 offset-md-3 col-xl-4 offset-xl-4">
+            <div class="card shadow">
+                <img src="https://source.unsplash.com/collection/1114848" alt="login-form-image" class="card-img-top">
+                <div class="card-body">
+                    <h5 class="card-title">Register for free</h5>
+
+                    <form action="/register" method="POST" class="validated-form" novalidate>
+                        <div class="mb-3">
+                            <label class="form-label" for="username">Username</label>
+                            <input class="form-control has-validation" type="text" name="username" id="username"
+                               autofocus required>
+                            <div class="valid-feedback">
+                                Looks good!
+                            </div>
+                            <div class="invalid-feedback">
+                                Please enter a username.
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label" for="email">Email</label>
+                            <input class="form-control has-validation" type="email" name="email" id="email" required>
+                            <div class="valid-feedback">
+                                Looks good!
+                            </div>
+                            <div class="invalid-feedback">
+                                Please enter your email.
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label" for="password">Password</label>
+                            <input class="form-control has-validation" type="password" name="password" id="password"
+                                required>
+                            <div class="valid-feedback">
+                                Looks good!
+                            </div>
+                            <div class="invalid-feedback">
+                                Please enter your password.
+                            </div>
+                        </div>
+                        <button class="btn btn-success col-12">Register</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

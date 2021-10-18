@@ -1,0 +1,137 @@
+<% layout("layouts/boilerplate") %>
+<!-- Custom css stars -->
+<link rel="stylesheet" type="text/css" href="/css/stars.css">
+
+
+
+<div class="row">
+    <div class="col-6 ">
+        <div id='map' style='width: 400px; height: 300px;'>
+        </div>
+        <div id="campCarousel" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
+                <% foundCamp.images.forEach((img, i)=> {%>
+                <div class="carousel-item <%= i === 0 ? "active" : ""%>">
+                    <img src="<%= img.url %>" class="d-block w-100" alt="camp image">
+                </div>
+                <% }); %>
+            </div>
+
+            <% if(foundCamp.images.length > 1) {%>
+            <button class="carousel-control-prev" type="button" data-bs-target="#campCarousels" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#campCarousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+            <% } %>
+        </div>
+
+
+
+        <div class="card mb-3">
+
+
+
+
+            <div class="card-body">
+                <h5 class="card-title"><%= foundCamp.title %></h5>
+                <p class="card-text"><%= foundCamp.description %></p>
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item text-muted"><%= foundCamp.location %></li>
+                <li class="list-group-item text-muted">Added by: <%= foundCamp.author.username %></li>
+                <li class="list-group-item">$<%= foundCamp.price %>/night</li>
+            </ul>
+            <% if(currentUser && foundCamp.author.equals(currentUser._id)) {%>
+
+            <div class="card-body">
+                <a class="card-link btn btn-info" href="/campgrounds/<%= foundCamp._id %>/edit">Edit</a>
+                <form class="d-inline" action="/campgrounds/<%= foundCamp._id %>?_method=DELETE" method="POST">
+                    <button class="btn btn-danger">Delete camp</button>
+                </form>
+            </div>
+            <% } %>
+        </div>
+
+    </div>
+
+    <!-- LEAVE A REVIEW FORM -->
+    <% if(currentUser){ %>
+    <div class="col-6 ">
+        <h2>Leave a Review:</h2>
+        <form action="/campgrounds/<%= foundCamp._id %>/reviews" class="text-center mb-3 validated-form" method="POST"
+            novalidate>
+
+            <div class="mb-3">
+                <fieldset class="starability-coinFlip">
+                    <input type="radio" id="no-rate" class="input-no-rate" name="review[rating]" value="1" checked
+                        aria-label="No rating." />
+                    <input type="radio" id="first-rate1" name="review[rating]" value="1" />
+                    <label for="first-rate1" title="Terrible">1 star</label>
+                    <input type="radio" id="first-rate2" name="review[rating]" value="2" />
+                    <label for="first-rate2" title="Not good">2 stars</label>
+                    <input type="radio" id="first-rate3" name="review[rating]" value="3" />
+                    <label for="first-rate3" title="Average">3 stars</label>
+                    <input type="radio" id="first-rate4" name="review[rating]" value="4" />
+                    <label for="first-rate4" title="Very good">4 stars</label>
+                    <input type="radio" id="first-rate5" name="review[rating]" value="5" />
+                    <label for="first-rate5" title="Amazing">5 stars</label>
+                </fieldset>
+            </div>
+
+            <div class="mb-3">
+                <label for="reviewText" class="form-label">Review:</label>
+                <textarea class="form-control" name="review[text]" id="reviewText" cols="30" rows="10"
+                    required></textarea>
+
+
+                <div class="valid-feedback">
+                    Looks good!
+                </div>
+                <div class="invalid-feedback">
+                    Please insert campground review.
+                </div>
+            </div>
+            <button class="btn btn-success">Submit</button>
+        </form>
+        <%  } %>
+
+        <!-- ALL REVIEWS -->
+
+        <% for(let review of foundCamp.reviews) { %>
+        <div class="card mb-3">
+            <div class="card-body">
+                <h4 class="card-title">By: <%= review.author.username %></h4>
+
+                <h3>Rating:</h3>
+                <p class="starability-result" data-rating="<%= review.rating %>">
+                    Rated: <%= review.rating %> stars
+                </p>
+                <h4>
+                    <p class="card-text">Review: <%= review.text %></p>
+                </h4>
+                <% if(currentUser && review.author.equals(currentUser._id)) {%>
+                <!-- DELETE REVIEW -->
+                <form action="/campgrounds/<%= foundCamp._id %>/reviews/<%= review._id %>?_method=DELETE" method="POST">
+                    <button class=" btn btn-danger">Delete review</button>
+                </form>
+                <% } %>
+            </div>
+        </div>
+        <% } %>
+
+
+    </div>
+</div>
+<script>
+    // passing token ti showMap.js
+    const mapToken = "<%-process.env.MAPBOX_TOKEN%>";
+    // passing coordinates to showMap.js marker location
+    const campLocation = <%- JSON.stringify(foundCamp) %>;
+</script>
+
+
+<script src="/js/showMap.js"></script>

@@ -1,0 +1,13 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "../../movieWebAPP"
+		}
+	],
+	"settings": {
+		"liveServer.settings.multiRootWorkspaceName": "campground_project"
+	}
+}
